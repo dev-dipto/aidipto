@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --shell-x: clamp(1.25rem, 5vw, 3.5rem);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-void text-mist font-sans antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(900px 520px at 78% -8%, rgba(76, 141, 255, 0.13), transparent 62%),
+      radial-gradient(760px 480px at 6% 14%, rgba(47, 232, 195, 0.07), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  * {
+    min-width: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid #4c8dff;
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: rgba(76, 141, 255, 0.3);
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  input, select, textarea, button {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: var(--shell-x);
+  }
+
+  .hairline {
+    @apply border border-hairline;
+  }
+
+  .panel {
+    @apply rounded-xl border border-hairline bg-panel/70 backdrop-blur-sm;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-hairline bg-raised/60 px-3 py-1 font-mono text-[11px] tracking-wide text-muted;
+  }
+
+  .demo-stamp {
+    @apply inline-flex items-center gap-1.5 rounded border border-amberline/40 bg-amberline/10 px-2 py-0.5 font-mono text-[10px] font-medium tracking-[0.12em] text-amberline;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply btn bg-azure text-[#04060B] hover:bg-[#6ba1ff];
+  }
+
+  .btn-ghost {
+    @apply btn border border-hairline bg-transparent text-mist hover:border-azure/60 hover:bg-azure/5;
+  }
+
+  .grid-floor {
+    background-image:
+      linear-gradient(to right, rgba(26, 37, 51, 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(26, 37, 51, 0.6) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .section-label {
+    @apply font-mono text-[11px] tracking-[0.18em] text-faint;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .text-glow {
+    text-shadow: 0 0 22px rgba(76, 141, 255, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Orbital system primitives ---------- */
+@keyframes orbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes packetRun {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--spoke-len, 80px));
+    opacity: 0;
+  }
+}
+
+.orbit-ring,
+.orbit-counter {
+  animation-name: orbitSpin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.orbit-packet {
+  animation: packetRun linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring,
+  .orbit-counter,
+  .orbit-packet {
+    animation: none !important;
+  }
+}
+
+/* ---------- Form controls ---------- */
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-hairline bg-panel px-3.5 py-3 text-[14.5px] text-mist
+      placeholder:text-faint transition-colors duration-200;
+  }
+  .input:focus {
+    @apply border-azure/60 outline-none;
+    box-shadow: 0 0 0 3px rgba(76, 141, 255, 0.16);
+  }
+  .input[aria-invalid='true'] {
+    @apply border-amberline/60;
+  }
+  select.input {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #8a98ae 50%),
+      linear-gradient(135deg, #8a98ae 50%, transparent 50%);
+    background-position: calc(100% - 18px) calc(1.25em), calc(100% - 13px) calc(1.25em);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2.5rem;
+  }
+  select.input option {
+    background-color: #0b111a;
+  }
+}
